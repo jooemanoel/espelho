@@ -1,0 +1,47 @@
+<div class="container mb-3">
+  <mat-card>
+    <mat-card-content>
+      <mat-card-title class="mb-3">Pagamento</mat-card-title>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Valor</mat-label>
+            <input matInput type="number" [(ngModel)]="pagamento.valor">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Percentual</mat-label>
+            <input matInput type="number" [(ngModel)]="pagamento.percentual">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-label>Tipo</mat-label>
+          <mat-radio-group [(ngModel)]="pagamento.parcelado">
+            <mat-radio-button [value]="false">A vista</mat-radio-button>
+            <mat-radio-button [value]="true">Parcelado</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="col" *ngIf="pagamento.parcelado">
+        <mat-form-field>
+          <mat-label>Número de parcelas</mat-label>
+          <input matInput type="number" [(ngModel)]="pagamento.numParcelas">
+        </mat-form-field>
+      </div>
+      <div class="col" *ngIf="!pagamento.parcelado">
+        <mat-form-field>
+          <mat-label>Data de pagamento</mat-label>
+          <input matInput [matDatepicker]="picker" disabled [(ngModel)]="data">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions class="d-flex justify-content-end gap-3">
+      <button mat-flat-button color="basic" routerLink="/cadastro">Cancelar</button>
+      <button mat-flat-button color="primary" (click)="avancar()">Confirmar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
