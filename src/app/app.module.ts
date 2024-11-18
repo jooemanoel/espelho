@@ -26,6 +26,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ParcelasComponent } from './pages/parcelas/parcelas.component';
+import { FormParcelasComponent } from './components/form-parcelas/form-parcelas.component';
+import { ResumoPagamentoComponent } from './components/resumo-pagamento/resumo-pagamento.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     CheckboxTiposComponent,
     TabelaFornecedoresComponent,
     FormPagamentoComponent,
-    TabelaParcelasComponent
+    TabelaParcelasComponent,
+    ParcelasComponent,
+    FormParcelasComponent,
+    ResumoPagamentoComponent
   ],
   imports: [
     AppRoutingModule,

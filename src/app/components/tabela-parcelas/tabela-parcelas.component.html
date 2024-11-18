@@ -1,1 +1,26 @@
-<p>tabela-parcelas works!</p>
+<div class="container mb-3">
+  <mat-card>
+    <mat-card-content>
+      <mat-card-title class="mb-3">Parcelamento</mat-card-title>
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container [matColumnDef]="colunas[0]">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor </th>
+          <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+        </ng-container>
+        <ng-container [matColumnDef]="colunas[1]">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Comissao </th>
+          <td mat-cell *matCellDef="let element"> {{element.comissao}} </td>
+        </ng-container>
+        <ng-container [matColumnDef]="colunas[2]">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
+          <td mat-cell *matCellDef="let element"> {{element.data}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">Nenhuma parcela adicionada ainda</td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

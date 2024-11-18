@@ -1,6 +1,6 @@
 <div class="container mb-3">
   <mat-card>
-    <mat-card-content class="mb-3">
+    <mat-card-content>
       <mat-card-title class="mb-3">Fornecedores compatíveis</mat-card-title>
       <table mat-table [dataSource]="dataSource" matSort>
         <ng-container [matColumnDef]="colunas[0]">
@@ -27,7 +27,7 @@
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </mat-card-content>
-    <mat-divider></mat-divider>
+    <mat-divider class="mt-3"></mat-divider>
     <mat-card-actions class="d-flex justify-content-end gap-3">
       <button mat-flat-button color="basic">Cancelar</button>
       <button mat-flat-button color="primary" (click)="avancar()">Confirmar</button>
