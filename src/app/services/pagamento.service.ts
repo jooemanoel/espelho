@@ -26,7 +26,7 @@ export class PagamentoService {
       valor: 0,
       percentual: 0,
       parcelado: false,
-      numParcelas: 0,
+      numParcelas: 2,
       parcelas: []
     };
   }

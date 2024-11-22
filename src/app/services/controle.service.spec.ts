@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ControleService } from './controle.service';
 
-describe('ControleService', () => {
+describe(ControleService.name, () => {
   let service: ControleService;
 
   beforeEach(() => {
@@ -12,5 +12,9 @@ describe('ControleService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+  it(`Produtos deve receber valores corretamente`, () => {
+    service.produtos = ['Arroz', 'Feijão'];
+    expect(service.produtos).toContain('Arroz');
   });
 });
