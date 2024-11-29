@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { PagamentoService } from 'src/app/services/pagamento.service';
 import { ResumoPagamentoComponent } from './resumo-pagamento.component';
-import { AppModule } from 'src/app/app.module';
 
 describe('ResumoPagamentoComponent', () => {
   let component: ResumoPagamentoComponent;
@@ -9,8 +10,9 @@ describe('ResumoPagamentoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
-      declarations: [ResumoPagamentoComponent]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      declarations: [ResumoPagamentoComponent],
+      providers: [PagamentoService]
     });
     fixture = TestBed.createComponent(ResumoPagamentoComponent);
     component = fixture.componentInstance;

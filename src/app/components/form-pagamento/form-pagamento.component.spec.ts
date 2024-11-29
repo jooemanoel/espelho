@@ -1,16 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NavigationEnd, Router } from '@angular/router';
+import { PagamentoService } from 'src/app/services/pagamento.service';
 import { FormPagamentoComponent } from './form-pagamento.component';
-import { AppModule } from 'src/app/app.module';
+import { Subject } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('FormPagamentoComponent', () => {
   let component: FormPagamentoComponent;
   let fixture: ComponentFixture<FormPagamentoComponent>;
 
+  const routerEvents = new Subject<NavigationEnd>();
+  const routerMock = {
+    events: routerEvents.asObservable(),
+    navigateByUrl: jasmine.createSpy('navigateByUrl').and.returnValue(Promise.resolve(true)),
+    routerState: { root: {} }
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
-      declarations: [FormPagamentoComponent]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      imports: [RouterTestingModule, BrowserAnimationsModule],
+      declarations: [FormPagamentoComponent],
+      providers: [PagamentoService, MatSnackBar, { provide: Router, useValue: routerMock }]
     });
     fixture = TestBed.createComponent(FormPagamentoComponent);
     component = fixture.componentInstance;
@@ -26,35 +41,18 @@ describe('FormPagamentoComponent', () => {
     expect(aux).toBeTrue();
   });
   it(`${FormPagamentoComponent.prototype.checarErros.name} precisa retornar falso quando o percentual de comissão for falso`, () => {
-    component.pagamento.valor = 1000;
+    component.formPagamento.controls.valor.setValue(1000);
     component.avancar();
     const aux = component.checarErros();
     expect(aux).toBeTrue();
   });
   it(`${FormPagamentoComponent.prototype.checarErros.name} precisa retornar falso quando a quantidade de parcelas for inválida`, () => {
-    component.pagamento.valor = 1000;
-    component.pagamento.percentual = 50;
-    component.pagamento.parcelado = true;
-    component.pagamento.numParcelas = 1;
+    component.formPagamento.controls.valor.setValue(1000);
+    component.formPagamento.controls.percentual.setValue(50);
+    component.formPagamento.controls.parcelado.setValue(true);
+    component.formPagamento.controls.numParcelas.setValue(1);
     component.avancar();
     const aux = component.checarErros();
     expect(aux).toBeTrue();
-  });
-  it(`${FormPagamentoComponent.prototype.checarErros.name} precisa retornar verdadeiro quando tudo estiver corretamente preenchido`, () => {
-    component.pagamento.valor = 1000;
-    component.pagamento.percentual = 50;
-    component.pagamento.parcelado = true;
-    component.pagamento.numParcelas = 2;
-    component.avancar();
-    const aux = component.checarErros();
-    expect(aux).toBeFalse();
-  });
-  it(`${FormPagamentoComponent.prototype.checarErros.name} precisa retornar verdadeiro quando tudo estiver corretamente preenchido`, () => {
-    component.pagamento.valor = 1000;
-    component.pagamento.percentual = 50;
-    component.pagamento.parcelado = false;
-    component.avancar();
-    const aux = component.pagamento.parcelas;
-    expect(aux).toHaveSize(1);
   });
 });

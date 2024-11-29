@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckboxTiposComponent } from './checkbox-tipos.component';
-import { AppModule } from 'src/app/app.module';
 import { ControleService } from 'src/app/services/controle.service';
+import { CheckboxTiposComponent } from './checkbox-tipos.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe(CheckboxTiposComponent.name, () => {
   let component: CheckboxTiposComponent;
@@ -10,8 +10,9 @@ describe(CheckboxTiposComponent.name, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
-      declarations: [CheckboxTiposComponent]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      declarations: [CheckboxTiposComponent],
+      providers: [ControleService]
     });
     fixture = TestBed.createComponent(CheckboxTiposComponent);
     component = fixture.componentInstance;
@@ -38,5 +39,4 @@ describe(CheckboxTiposComponent.name, () => {
     component.alternarProduto(false, 'Arroz');
     expect(component.controle.produtos).toHaveSize(0);
   });
-
 });

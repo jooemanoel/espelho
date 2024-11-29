@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppModule } from 'src/app/app.module';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { PagamentoService } from 'src/app/services/pagamento.service';
 import { ParcelasComponent } from './parcelas.component';
 
 describe('ParcelasComponent', () => {
@@ -9,8 +10,9 @@ describe('ParcelasComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
-      declarations: [ParcelasComponent]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      declarations: [ParcelasComponent],
+      providers: [PagamentoService]
     });
     fixture = TestBed.createComponent(ParcelasComponent);
     component = fixture.componentInstance;

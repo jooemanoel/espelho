@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
@@ -12,7 +12,7 @@ import { Fornecedor, LISTA_FORNECEDORES } from 'src/app/shared/models/interfaces
   templateUrl: './tabela-fornecedores.component.html',
   styleUrls: ['./tabela-fornecedores.component.css']
 })
-export class TabelaFornecedoresComponent implements AfterViewInit {
+export class TabelaFornecedoresComponent implements OnInit, AfterViewInit {
   colunas: string[] = ['radio', 'nome', 'codigo'];
   dataSource = new MatTableDataSource<Fornecedor>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -31,6 +31,9 @@ export class TabelaFornecedoresComponent implements AfterViewInit {
       this.dataSource.filter = this._controle.produtos.join(',');
       this.filtrar();
     });
+  }
+  ngOnInit(): void {
+    this.controle.emissor.subscribe(event => console.log(event, 'recebi pela tabela'));
   }
   get controle() {
     return this._controle;
@@ -53,5 +56,8 @@ export class TabelaFornecedoresComponent implements AfterViewInit {
       return;
     }
     void this._router.navigateByUrl('pagamento');
+  }
+  enviar() {
+    this.controle.emissor.next('Enviei pela tabela');
   }
 }

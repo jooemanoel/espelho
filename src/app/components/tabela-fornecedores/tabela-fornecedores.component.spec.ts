@@ -1,18 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppModule } from 'src/app/app.module';
-import { TabelaFornecedoresComponent } from './tabela-fornecedores.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NavigationEnd, Router } from '@angular/router';
+import { ControleService } from 'src/app/services/controle.service';
 import { Produtos } from 'src/app/shared/models/enums/produtos';
 import { LISTA_FORNECEDORES } from 'src/app/shared/models/interfaces/fornecedor';
+import { TabelaFornecedoresComponent } from './tabela-fornecedores.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Subject } from 'rxjs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe(TabelaFornecedoresComponent.name, () => {
   let component: TabelaFornecedoresComponent;
   let fixture: ComponentFixture<TabelaFornecedoresComponent>;
 
+  const routerEvents = new Subject<NavigationEnd>();
+  const routerMock = {
+    events: routerEvents.asObservable(),
+    navigateByUrl: jasmine.createSpy('navigateByUrl').and.returnValue(Promise.resolve(true)),
+    routerState: { root: {} }
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
-      declarations: [TabelaFornecedoresComponent]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      imports: [RouterTestingModule, BrowserAnimationsModule],
+      declarations: [TabelaFornecedoresComponent],
+      providers: [ControleService, MatSnackBar, { provide: Router, useValue: routerMock }]
     });
     fixture = TestBed.createComponent(TabelaFornecedoresComponent);
     component = fixture.componentInstance;

@@ -6,7 +6,7 @@
     "start": "ng lint --fix && ng serve -o",
     "build": "ng build --configuration=production --output-path docs --base-href /espelho/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --code-coverage",
+    "test": "ng test --watch=false --source-map --code-coverage",
     "lint": "ng lint"
   },
   "private": true,

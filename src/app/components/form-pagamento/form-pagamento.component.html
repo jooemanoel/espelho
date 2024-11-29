@@ -6,31 +6,31 @@
         <div class="col col-12 col-md-6 col-lg">
           <mat-form-field>
             <mat-label>Valor</mat-label>
-            <input [disabled]="!ativo" matInput type="number" [(ngModel)]="pagamento.valor">
+            <input matInput type="number" [formControl]="formPagamento.controls.valor">
           </mat-form-field>
         </div>
         <div class="col col-12 col-md-6 col-lg">
           <mat-form-field>
             <mat-label>Percentual</mat-label>
-            <input [disabled]="!ativo" matInput type="number" [(ngModel)]="pagamento.percentual">
+            <input matInput type="number" [formControl]="formPagamento.controls.percentual">
           </mat-form-field>
         </div>
         <div class="col col-12 col-md-6 col-lg mb-3">
-          <mat-radio-group [disabled]="!ativo" [(ngModel)]="pagamento.parcelado">
+          <mat-radio-group [formControl]="formPagamento.controls.parcelado">
             <mat-radio-button [value]="false">A vista</mat-radio-button>
             <mat-radio-button [value]="true">Parcelado</mat-radio-button>
           </mat-radio-group>
         </div>
-        <div class="col col-12 col-md-6 col-lg" *ngIf="pagamento.parcelado">
+        <div class="col col-12 col-md-6 col-lg" *ngIf="formPagamento.controls.parcelado.value">
           <mat-form-field>
             <mat-label>Número de parcelas</mat-label>
-            <input [disabled]="!ativo" matInput type="number" [(ngModel)]="pagamento.numParcelas" [min]="2" [max]="12">
+            <input matInput type="number" [formControl]="formPagamento.controls.numParcelas" [min]="2" [max]="12">
           </mat-form-field>
         </div>
-        <div class="col col-12 col-md-6 col-lg" *ngIf="!pagamento.parcelado">
+        <div class="col col-12 col-md-6 col-lg" *ngIf="!formPagamento.controls.parcelado.value">
           <mat-form-field>
             <mat-label>Data de pagamento</mat-label>
-            <input [disabled]="!ativo" matInput [matDatepicker]="picker" [(ngModel)]="data">
+            <input matInput [matDatepicker]="picker" [formControl]="formPagamento.controls.data">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>

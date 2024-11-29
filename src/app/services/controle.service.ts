@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,9 @@ export class ControleService {
   }
   set fornecedor(value: number) {
     this._fornecedor = value;
+  }
+  private _emissor = new Subject<string>();
+  get emissor() {
+    return this._emissor;
   }
 }

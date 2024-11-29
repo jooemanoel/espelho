@@ -10,6 +10,7 @@
         (change)="alternarProduto($event.checked, produtos.p3)">Produto 3</mat-checkbox>
       <mat-checkbox [checked]="checarProduto(produtos.p4)"
         (change)="alternarProduto($event.checked, produtos.p4)">Produto 4</mat-checkbox>
+      <button mat-flat-button color="primary" (click)="enviar()">Enviar</button>
     </mat-card-content>
   </mat-card>
 </div>

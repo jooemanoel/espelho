@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { PagamentoService } from 'src/app/services/pagamento.service';
 import { TabelaParcelasComponent } from './tabela-parcelas.component';
-import { AppModule } from 'src/app/app.module';
 
 describe('TabelaParcelasComponent', () => {
   let component: TabelaParcelasComponent;
@@ -9,8 +10,9 @@ describe('TabelaParcelasComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
-      declarations: [TabelaParcelasComponent]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      declarations: [TabelaParcelasComponent],
+      providers: [PagamentoService]
     });
     fixture = TestBed.createComponent(TabelaParcelasComponent);
     component = fixture.componentInstance;

@@ -6,20 +6,29 @@ import { Pagamento } from '../shared/models/interfaces/pagamento';
 })
 export class PagamentoService {
   private _pagamento!: Pagamento;
+  constructor() {
+    this.inicializar();
+  }
   get pagamento() {
     return this._pagamento;
-  }
-  get valor() {
-    return this._pagamento.valor;
-  }
-  get comissao() {
-    return (this._pagamento.valor * this._pagamento.percentual) / 100;
   }
   get parcelas() {
     return this._pagamento.parcelas;
   }
-  constructor() {
-    this.inicializar();
+  get valor() {
+    return this._pagamento.valor;
+  }
+  get percentual() {
+    return this._pagamento.percentual;
+  }
+  get comissao() {
+    return (this.valor * this.percentual) / 100;
+  }
+  get parcelado() {
+    return this._pagamento.parcelado;
+  }
+  get numParcelas() {
+    return this._pagamento.numParcelas;
   }
   inicializar() {
     this._pagamento = {
@@ -29,12 +38,5 @@ export class PagamentoService {
       numParcelas: 2,
       parcelas: []
     };
-  }
-  criarParcelaUnica(input: Date) {
-    this._pagamento.parcelas = [{
-      valor: this.valor,
-      comissao: this.comissao,
-      data: input
-    }];
   }
 }

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { PagamentoService } from 'src/app/services/pagamento.service';
@@ -8,23 +9,47 @@ import { PagamentoService } from 'src/app/services/pagamento.service';
   templateUrl: './form-pagamento.component.html',
   styleUrls: ['./form-pagamento.component.css']
 })
-export class FormPagamentoComponent {
+export class FormPagamentoComponent implements OnInit {
   @Input() ativo!: boolean;
-  data = new Date();
+  formPagamento = new FormGroup({
+    valor: new FormControl<number | undefined>(undefined, [Validators.required.bind(this), Validators.min(0.01)]),
+    percentual: new FormControl<number | undefined>(undefined, [Validators.required.bind(this), Validators.min(0.01), Validators.max(100)]),
+    parcelado: new FormControl<boolean>(false),
+    numParcelas: new FormControl<number>(2, [Validators.min(2), Validators.max(12)]),
+    data: new FormControl<Date>(new Date())
+  });
   constructor(private _service: PagamentoService, private _snackBar: MatSnackBar, private _router: Router) { }
-  get pagamento() {
-    return this._service.pagamento;
+  ngOnInit(): void {
+    this.ativo ? this.formPagamento.enable() : this.formPagamento.disable();
+  }
+  get valor() {
+    return this.formPagamento.controls.valor.value ?? 0;
+  }
+  get percentual() {
+    return this.formPagamento.controls.percentual.value ?? 0;
+  }
+  get comissao() {
+    return (this.valor * this.percentual) / 100;
+  }
+  get parcelado() {
+    return this.formPagamento.controls.parcelado.value ?? false;
+  }
+  get numParcelas() {
+    return this.formPagamento.controls.numParcelas.value ?? 1;
+  }
+  get data() {
+    return this.formPagamento.controls.data.value ?? new Date();
   }
   checarErros() {
-    if (!this.pagamento.valor) {
+    if (!this.formPagamento.controls.valor.valid) {
       this._snackBar.open('Informe o valor da compra!', 'OK');
       return true;
     }
-    if (!this.pagamento.percentual) {
+    if (!this.formPagamento.controls.percentual.valid) {
       this._snackBar.open('Informe o percentual de comissão!', 'OK');
       return true;
     }
-    if (this.pagamento.parcelado && (this.pagamento.numParcelas < 2 || this.pagamento.numParcelas > 12)) {
+    if (this.formPagamento.controls.parcelado.value && !this.formPagamento.controls.numParcelas.valid) {
       this._snackBar.open('Informe uma quantidade válida de parcelas', 'OK');
       return true;
     }
@@ -33,8 +58,17 @@ export class FormPagamentoComponent {
   avancar() {
     if (this.checarErros())
       return;
-    if (!this.pagamento.parcelado)
-      this._service.criarParcelaUnica(this.data);
+    this._service.pagamento.valor = this.valor;
+    this._service.pagamento.percentual = this.percentual;
+    this._service.pagamento.parcelado = this.parcelado;
+    this._service.pagamento.numParcelas = this.numParcelas;
+    if (!this.parcelado) {
+      this._service.pagamento.parcelas = [{
+        valor: this.valor,
+        comissao: this.comissao,
+        data: this.data
+      }];
+    }
     void this._router.navigateByUrl('parcelas');
   }
 }
