@@ -29,6 +29,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ParcelasComponent } from './pages/parcelas/parcelas.component';
 import { FormParcelasComponent } from './components/form-parcelas/form-parcelas.component';
 import { ResumoPagamentoComponent } from './components/resumo-pagamento/resumo-pagamento.component';
+import { PesquisaComponent } from './pages/pesquisa/pesquisa.component';
+import { InfoClienteComponent } from './components/info-cliente/info-cliente.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { ResumoPagamentoComponent } from './components/resumo-pagamento/resumo-p
     TabelaParcelasComponent,
     ParcelasComponent,
     FormParcelasComponent,
-    ResumoPagamentoComponent
+    ResumoPagamentoComponent,
+    PesquisaComponent,
+    InfoClienteComponent
   ],
   imports: [
     AppRoutingModule,

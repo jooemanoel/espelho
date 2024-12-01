@@ -1,45 +1,45 @@
-import { Produtos } from "../enums/produtos";
+import { LISTA_PRODUTOS, Produto } from "./produto";
 
 export interface Fornecedor {
   nome: string;
   codigo: number;
-  produtos: string[];
+  produtos: Produto[];
 }
 
 export const LISTA_FORNECEDORES: Fornecedor[] = [
   {
     nome: 'João',
     codigo: 1,
-    produtos: [Produtos.p1, Produtos.p2]
+    produtos: [LISTA_PRODUTOS[0], LISTA_PRODUTOS[1]]
   },
   {
     nome: 'Maria',
     codigo: 2,
-    produtos: [Produtos.p2, Produtos.p3]
+    produtos: [LISTA_PRODUTOS[1], LISTA_PRODUTOS[2]]
   },
   {
     nome: 'Ana',
     codigo: 3,
-    produtos: [Produtos.p3, Produtos.p4]
+    produtos: [LISTA_PRODUTOS[2], LISTA_PRODUTOS[3]]
   },
   {
     nome: 'Mateus',
     codigo: 4,
-    produtos: [Produtos.p1, Produtos.p4]
+    produtos: [LISTA_PRODUTOS[0], LISTA_PRODUTOS[3]]
   },
   {
     nome: 'Alemão',
     codigo: 5,
-    produtos: [Produtos.p1, Produtos.p2, Produtos.p3]
+    produtos: [LISTA_PRODUTOS[0], LISTA_PRODUTOS[1], LISTA_PRODUTOS[2]]
   },
   {
     nome: 'Levi',
     codigo: 6,
-    produtos: [Produtos.p1, Produtos.p3, Produtos.p4]
+    produtos: [LISTA_PRODUTOS[0], LISTA_PRODUTOS[2], LISTA_PRODUTOS[3]]
   },
   {
     nome: 'Texas',
     codigo: 7,
-    produtos: [Produtos.p1, Produtos.p2, Produtos.p4]
+    produtos: [LISTA_PRODUTOS[0], LISTA_PRODUTOS[1], LISTA_PRODUTOS[3]]
   },
 ];

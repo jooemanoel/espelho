@@ -12,15 +12,36 @@ import { PagamentoService } from 'src/app/services/pagamento.service';
 export class FormPagamentoComponent implements OnInit {
   @Input() ativo!: boolean;
   formPagamento = new FormGroup({
-    valor: new FormControl<number | undefined>(undefined, [Validators.required.bind(this), Validators.min(0.01)]),
-    percentual: new FormControl<number | undefined>(undefined, [Validators.required.bind(this), Validators.min(0.01), Validators.max(100)]),
+    valor: new FormControl<number | undefined>(
+      undefined,
+      [Validators.required.bind(this), Validators.min(0.01)]
+    ),
+    percentual: new FormControl<number | undefined>(
+      undefined,
+      [Validators.required.bind(this), Validators.min(0.01), Validators.max(100)]
+    ),
     parcelado: new FormControl<boolean>(false),
-    numParcelas: new FormControl<number>(2, [Validators.min(2), Validators.max(12)]),
+    numParcelas: new FormControl<number>(
+      2,
+      [Validators.min(2), Validators.max(12)]
+    ),
     data: new FormControl<Date>(new Date())
   });
   constructor(private _service: PagamentoService, private _snackBar: MatSnackBar, private _router: Router) { }
   ngOnInit(): void {
     this.ativo ? this.formPagamento.enable() : this.formPagamento.disable();
+    if(!this._service.valor) return;
+    this.formPagamento.patchValue({
+      valor: this._service.valor,
+      percentual: this._service.percentual,
+      parcelado: this._service.parcelado,
+      numParcelas: this._service.numParcelas
+    });
+    if(this._service.parcelas.length){
+      this.formPagamento.patchValue({
+        data: this._service.parcelas[0].data
+      });
+    }
   }
   get valor() {
     return this.formPagamento.controls.valor.value ?? 0;

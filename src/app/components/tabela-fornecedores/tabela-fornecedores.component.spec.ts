@@ -2,18 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router } from '@angular/router';
-import { ControleService } from 'src/app/services/controle.service';
-import { Produtos } from 'src/app/shared/models/enums/produtos';
-import { LISTA_FORNECEDORES } from 'src/app/shared/models/interfaces/fornecedor';
-import { TabelaFornecedoresComponent } from './tabela-fornecedores.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Subject } from 'rxjs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ControleService } from 'src/app/services/controle.service';
+import { Fornecedor } from 'src/app/shared/models/interfaces/fornecedor';
+import { LISTA_PRODUTOS } from 'src/app/shared/models/interfaces/produto';
+import { TabelaFornecedoresComponent } from './tabela-fornecedores.component';
 
 describe(TabelaFornecedoresComponent.name, () => {
   let component: TabelaFornecedoresComponent;
   let fixture: ComponentFixture<TabelaFornecedoresComponent>;
+  let controleService: ControleService;
 
   const routerEvents = new Subject<NavigationEnd>();
   const routerMock = {
@@ -27,8 +28,11 @@ describe(TabelaFornecedoresComponent.name, () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       imports: [RouterTestingModule, BrowserAnimationsModule],
       declarations: [TabelaFornecedoresComponent],
-      providers: [ControleService, MatSnackBar, { provide: Router, useValue: routerMock }]
+      providers: [MatSnackBar, { provide: Router, useValue: routerMock }]
     });
+
+    controleService = TestBed.inject(ControleService);
+
     fixture = TestBed.createComponent(TabelaFornecedoresComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -43,24 +47,35 @@ describe(TabelaFornecedoresComponent.name, () => {
     expect(aux).toBeTruthy();
   });
   it(`O filtro deve ser chamado`, () => {
-    component.mudarFornecedor(5);
-    expect(component.controle.fornecedor).toEqual(5);
+    component.mudarFornecedor(mockFornecedor1);
+    expect(controleService.fornecedor).toEqual(mockFornecedor1);
   });
   it(`${TabelaFornecedoresComponent.prototype.avancar.name} não deve avançar com fornecedor inválido`, () => {
-    component.mudarFornecedor(0);
+    controleService.fornecedor = null;
     component.avancar();
-    expect(component.controle.fornecedor).toEqual(0);
+    expect(controleService.fornecedor).toEqual(null);
   });
   it(`${TabelaFornecedoresComponent.prototype.avancar.name} deve avançar com fornecedor válido`, () => {
-    component.mudarFornecedor(1);
+    component.mudarFornecedor(mockFornecedor1);
     component.avancar();
-    expect(component.controle.fornecedor).toEqual(1);
+    expect(controleService.fornecedor).toEqual(mockFornecedor1);
   });
-  it(`${TabelaFornecedoresComponent.prototype.filtrar.name} deve apagar o fornecedor que não tem o produto`, () => {
-    component.dataSource.data = LISTA_FORNECEDORES;
-    component.mudarFornecedor(1);
-    component.controle.produtos = [Produtos.p4];
-    component.filtrar();
-    expect(component.controle.fornecedor).toEqual(0);
+  it(`${TabelaFornecedoresComponent.prototype.checarFornecedor.name} deve apagar o fornecedor que não tem o produto`, () => {
+    component.mudarFornecedor(mockFornecedor1);
+    controleService.produtos = [LISTA_PRODUTOS[3]];
+    component.checarFornecedor();
+    expect(controleService.fornecedor).toEqual(null);
+  });
+  it(`L23: O effect deve chamar a função para apagar o fornecedor que não tem o produto`, () => {
+    component.mudarFornecedor(mockFornecedor1);
+    controleService.produtos = [LISTA_PRODUTOS[3]];
+    fixture.detectChanges();
+    expect(controleService.fornecedor).toEqual(null);
   });
 });
+
+const mockFornecedor1: Fornecedor = {
+  nome: 'João',
+  codigo: 1,
+  produtos: [LISTA_PRODUTOS[0], LISTA_PRODUTOS[1]]
+}

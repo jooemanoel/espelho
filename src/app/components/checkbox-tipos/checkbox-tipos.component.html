@@ -2,15 +2,8 @@
   <mat-card>
     <mat-card-content>
       <mat-card-title class="mb-3">Produtos disponíveis</mat-card-title>
-      <mat-checkbox [checked]="checarProduto(produtos.p1)"
-        (change)="alternarProduto($event.checked, produtos.p1)">Produto 1</mat-checkbox>
-      <mat-checkbox [checked]="checarProduto(produtos.p2)"
-        (change)="alternarProduto($event.checked, produtos.p2)">Produto 2</mat-checkbox>
-      <mat-checkbox [checked]="checarProduto(produtos.p3)"
-        (change)="alternarProduto($event.checked, produtos.p3)">Produto 3</mat-checkbox>
-      <mat-checkbox [checked]="checarProduto(produtos.p4)"
-        (change)="alternarProduto($event.checked, produtos.p4)">Produto 4</mat-checkbox>
-      <button mat-flat-button color="primary" (click)="enviar()">Enviar</button>
+      <mat-checkbox *ngFor="let produto of listaProdutos" [checked]="checarProduto(produto)"
+        (change)="alternarProduto($event.checked, produto)">{{ produto.nome }}</mat-checkbox>
     </mat-card-content>
   </mat-card>
 </div>

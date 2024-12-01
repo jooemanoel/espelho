@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ControleService } from 'src/app/services/controle.service';
 import { Fornecedor, LISTA_FORNECEDORES } from 'src/app/shared/models/interfaces/fornecedor';
+import { Produto } from 'src/app/shared/models/interfaces/produto';
 
 @Component({
   selector: 'app-tabela-fornecedores',
@@ -17,23 +18,22 @@ export class TabelaFornecedoresComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Fornecedor>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  produtosSelecionados = effect(() => {
+    this.dataSource.filter = JSON.stringify(this._controle.produtos);
+    if (this._controle.fornecedor) this.checarFornecedor();
+  });
   constructor(
     private _controle: ControleService,
     private _snackBar: MatSnackBar,
     private _router: Router
-  ) {
-    this.dataSource.data = LISTA_FORNECEDORES;
-    this.dataSource.filterPredicate = (data: Fornecedor, filter: string) => {
-      const produtos = filter.split(',');
-      return produtos.every(produto => data.produtos.some(x => x === produto));
-    };
-    effect(() => {
-      this.dataSource.filter = this._controle.produtos.join(',');
-      this.filtrar();
-    });
-  }
+  ) { }
   ngOnInit(): void {
-    this.controle.emissor.subscribe(event => console.log(event, 'recebi pela tabela'));
+    this.dataSource.filterPredicate = (data: Fornecedor, filter: string) => {
+      const produtos: Produto[] = JSON.parse(filter);
+      return produtos.every(produto => data.produtos.some(x => x.codigo === produto.codigo));
+    };
+    this.dataSource.data = LISTA_FORNECEDORES;
+    // this.checarFornecedor();
   }
   get controle() {
     return this._controle;
@@ -42,12 +42,12 @@ export class TabelaFornecedoresComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  filtrar() {
-    const aux = this.dataSource.filteredData.find(x => x.codigo === this._controle.fornecedor);
-    if (!aux || !this._controle.produtos.every(produto => aux.produtos.some(x => x === produto)))
-      this._controle.fornecedor = 0;
+  checarFornecedor() {
+    if (!this._controle.produtos.every(produto => this._controle.fornecedor?.produtos.some(x => x === produto))) {
+      this._controle.fornecedor = null;
+    }
   }
-  mudarFornecedor(value: number) {
+  mudarFornecedor(value: Fornecedor) {
     this._controle.fornecedor = value;
   }
   avancar() {
@@ -56,8 +56,5 @@ export class TabelaFornecedoresComponent implements OnInit, AfterViewInit {
       return;
     }
     void this._router.navigateByUrl('pagamento');
-  }
-  enviar() {
-    this.controle.emissor.next('Enviei pela tabela');
   }
 }

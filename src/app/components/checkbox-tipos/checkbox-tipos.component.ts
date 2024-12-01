@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ControleService } from 'src/app/services/controle.service';
-import { Produtos } from 'src/app/shared/models/enums/produtos';
+import { LISTA_PRODUTOS, Produto } from 'src/app/shared/models/interfaces/produto';
 
 @Component({
   selector: 'app-checkbox-tipos',
@@ -8,23 +8,17 @@ import { Produtos } from 'src/app/shared/models/enums/produtos';
   styleUrls: ['./checkbox-tipos.component.css']
 })
 export class CheckboxTiposComponent implements OnInit {
-  produtos = Produtos;
+  listaProdutos: Produto[] = [];
   constructor(private _controle: ControleService) { }
   ngOnInit(): void {
-    this.controle.emissor.subscribe(event => console.log(event, 'recebi pelo checkbox'));
+    this.listaProdutos = LISTA_PRODUTOS;
   }
-  get controle() {
-    return this._controle;
-  }
-  checarProduto(produto: string) {
+  checarProduto(produto: Produto) {
     return this._controle.produtos.some(x => x === produto);
   }
-  alternarProduto(checked: boolean, produto: string) {
+  alternarProduto(checked: boolean, produto: Produto) {
     this._controle.produtos = checked
       ? [...this._controle.produtos, produto]
       : this._controle.produtos.filter(x => x !== produto);
-  }
-  enviar() {
-    this.controle.emissor.next('Enviei pelo checkbox');
   }
 }
