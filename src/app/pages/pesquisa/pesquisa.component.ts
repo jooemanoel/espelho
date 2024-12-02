@@ -16,10 +16,12 @@ export class PesquisaComponent {
     if (this._controle.cliente.codigo) return;
     try {
       const x = this.clienteAtual();
+      console.log('Efeito acionado com:', x);
       if (x) this.processarCliente(x);
     }
     catch (erro) {
-      console.log(erro);
+      console.log('Erro capturado no efeito:', erro);
+      this.mostrarErro(erro);
     }
   });
   clienteAlterado = toSignal(this._service.detectarClienteAlterado());
@@ -31,6 +33,9 @@ export class PesquisaComponent {
   processarCliente(cliente: Cliente) {
     this._controle.cliente = cliente;
     this.avancar();
+  }
+  mostrarErro(erro: unknown) {
+    console.log('Funcao chamada', erro);
   }
   buscar() {
     this._service.chamarProximoCliente();
