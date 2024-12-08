@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { PagamentoService } from 'src/app/services/pagamento.service';
 import { Parcela } from 'src/app/shared/models/interfaces/parcela';
 
 @Component({
@@ -10,14 +9,12 @@ import { Parcela } from 'src/app/shared/models/interfaces/parcela';
   styleUrls: ['./tabela-parcelas.component.css']
 })
 export class TabelaParcelasComponent implements AfterViewInit {
+  @Input() set parcelas(x: Parcela[]) {
+    this.dataSource.data = x;
+  }
   colunas: string[] = ['valor', 'comissao', 'data'];
   dataSource = new MatTableDataSource<Parcela>([]);
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(
-    private _service: PagamentoService
-  ) {
-    this.dataSource.data = this._service.parcelas;
-  }
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }

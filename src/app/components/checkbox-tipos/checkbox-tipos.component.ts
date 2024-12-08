@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { ControleService } from 'src/app/services/controle.service';
 import { LISTA_PRODUTOS, Produto } from 'src/app/shared/models/interfaces/produto';
 
@@ -9,6 +9,11 @@ import { LISTA_PRODUTOS, Produto } from 'src/app/shared/models/interfaces/produt
 })
 export class CheckboxTiposComponent implements OnInit {
   listaProdutos: Produto[] = [];
+  produtosEfeito = effect(() => {
+    const produtos = this._controle.produtos;
+    if (!produtos.length || !produtos.every(p => this._controle.fornecedor?.produtos.some(x => x === p)))
+      this._controle.fornecedor = null;
+  });
   constructor(private _controle: ControleService) { }
   ngOnInit(): void {
     this.listaProdutos = LISTA_PRODUTOS;

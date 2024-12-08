@@ -19,8 +19,8 @@ export class TabelaFornecedoresComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   produtosSelecionados = effect(() => {
-    this.dataSource.filter = JSON.stringify(this._controle.produtos);
-    if (this._controle.fornecedor) this.checarFornecedor();
+    const produtos = this._controle.produtos;
+    this.dataSource.filter = JSON.stringify(produtos);
   });
   constructor(
     private _controle: ControleService,
@@ -33,7 +33,6 @@ export class TabelaFornecedoresComponent implements OnInit, AfterViewInit {
       return produtos.every(produto => data.produtos.some(x => x.codigo === produto.codigo));
     };
     this.dataSource.data = LISTA_FORNECEDORES;
-    // this.checarFornecedor();
   }
   get controle() {
     return this._controle;
@@ -41,11 +40,6 @@ export class TabelaFornecedoresComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-  checarFornecedor() {
-    if (!this._controle.produtos.every(produto => this._controle.fornecedor?.produtos.some(x => x === produto))) {
-      this._controle.fornecedor = null;
-    }
   }
   mudarFornecedor(value: Fornecedor) {
     this._controle.fornecedor = value;

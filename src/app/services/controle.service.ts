@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Cliente } from '../shared/models/interfaces/cliente';
 import { Fornecedor } from '../shared/models/interfaces/fornecedor';
 import { Produto } from '../shared/models/interfaces/produto';
@@ -31,9 +30,5 @@ export class ControleService {
   }
   set fornecedor(x: Fornecedor | null) {
     this._fornecedor = x;
-  }
-  private _emissor = new Subject<string>();
-  get emissor() {
-    return this._emissor;
   }
 }
