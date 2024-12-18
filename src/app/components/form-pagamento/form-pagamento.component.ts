@@ -27,17 +27,21 @@ export class FormPagamentoComponent implements OnInit {
     ),
     data: new FormControl<Date>(new Date())
   });
-  constructor(private _service: PagamentoService, private _snackBar: MatSnackBar, private _router: Router) { }
+  constructor(
+    private _service: PagamentoService,
+    private _snackBar: MatSnackBar,
+    private _router: Router
+  ) { }
   ngOnInit(): void {
     this.ativo ? this.formPagamento.enable() : this.formPagamento.disable();
-    if(!this._service.valor) return;
+    if (!this._service.valor) return;
     this.formPagamento.patchValue({
       valor: this._service.valor,
       percentual: this._service.percentual,
       parcelado: this._service.parcelado,
       numParcelas: this._service.numParcelas
     });
-    if(this._service.parcelas.length){
+    if (this._service.parcelas.length) {
       this.formPagamento.patchValue({
         data: this._service.parcelas[0].data
       });
@@ -77,19 +81,19 @@ export class FormPagamentoComponent implements OnInit {
     return false;
   }
   avancar() {
-    if (this.checarErros())
-      return;
+    if (this.checarErros()) return;
     this._service.pagamento.valor = this.valor;
     this._service.pagamento.percentual = this.percentual;
     this._service.pagamento.parcelado = this.parcelado;
     this._service.pagamento.numParcelas = this.numParcelas;
-    if (!this.parcelado) {
-      this._service.pagamento.parcelas = [{
-        valor: this.valor,
-        comissao: this.comissao,
-        data: this.data
-      }];
-    }
+    this._service.pagamento.parcelas = this.parcelado ? [] : [{
+      valor: this.valor,
+      comissao: this.comissao,
+      data: this.data
+    }];
     void this._router.navigateByUrl('parcelas');
+  }
+  cancelar() {
+    console.log('chamou');
   }
 }

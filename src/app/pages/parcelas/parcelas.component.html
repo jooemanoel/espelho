@@ -1,5 +1,5 @@
 <app-cabecalho titulo="Parcelas" rota="/pagamento"></app-cabecalho>
 <app-form-pagamento [ativo]="false"></app-form-pagamento>
-<app-form-parcelas *ngIf="pagamento.parcelado"></app-form-parcelas>
+<app-form-parcelas *ngIf="pagamento.parcelado && pagamento.parcelas.length < pagamento.numParcelas"></app-form-parcelas>
 <app-tabela-parcelas [parcelas]="pagamento.parcelas"></app-tabela-parcelas>
 <app-resumo-pagamento></app-resumo-pagamento>

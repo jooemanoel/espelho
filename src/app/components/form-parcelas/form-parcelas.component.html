@@ -1,25 +1,24 @@
 <div class="container mb-3">
   <mat-card>
     <mat-card-content>
-      <mat-card-title class="mb-3">Pagamento</mat-card-title>
       <div class="row">
         <div class="col col-12 col-md">
-          <mat-form-field>
+          <mat-form-field class="w-100">
             <mat-label>Valor</mat-label>
             <input matInput type="number" [formControl]="formParcela.controls.valor">
           </mat-form-field>
         </div>
         <div class="col col-12 col-md">
-          <mat-form-field>
+          <mat-form-field class="w-100">
             <mat-label>Data de pagamento</mat-label>
             <input matInput [matDatepicker]="picker" [formControl]="formParcela.controls.data">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>
-      </div>
-      <div class="col col-12 col-md ">
-        <button mat-flat-button color="primary" (click)="incluir()">Confirmar</button>
+        <div class="col col-12 col-md mt-md-3">
+          <button mat-flat-button color="primary" (click)="incluir()">Confirmar</button>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>

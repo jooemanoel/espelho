@@ -47,7 +47,7 @@ describe(TabelaFornecedoresComponent.name, () => {
     expect(aux).toBeTruthy();
   });
   it(`O filtro deve ser chamado`, () => {
-    component.mudarFornecedor(mockFornecedor1);
+    component.alternarFornecedor(mockFornecedor1);
     expect(controleService.fornecedor).toEqual(mockFornecedor1);
   });
   it(`${TabelaFornecedoresComponent.prototype.avancar.name} não deve avançar com fornecedor inválido`, () => {
@@ -56,18 +56,18 @@ describe(TabelaFornecedoresComponent.name, () => {
     expect(controleService.fornecedor).toEqual(null);
   });
   it(`${TabelaFornecedoresComponent.prototype.avancar.name} deve avançar com fornecedor válido`, () => {
-    component.mudarFornecedor(mockFornecedor1);
+    component.alternarFornecedor(mockFornecedor1);
     component.avancar();
     expect(controleService.fornecedor).toEqual(mockFornecedor1);
   });
   it(`${TabelaFornecedoresComponent.prototype.checarFornecedor.name} deve apagar o fornecedor que não tem o produto`, () => {
-    component.mudarFornecedor(mockFornecedor1);
+    component.alternarFornecedor(mockFornecedor1);
     controleService.produtos = [LISTA_PRODUTOS[3]];
     component.checarFornecedor();
     expect(controleService.fornecedor).toEqual(null);
   });
   it(`L23: O effect deve chamar a função para apagar o fornecedor que não tem o produto`, () => {
-    component.mudarFornecedor(mockFornecedor1);
+    component.alternarFornecedor(mockFornecedor1);
     controleService.produtos = [LISTA_PRODUTOS[3]];
     fixture.detectChanges();
     expect(controleService.fornecedor).toEqual(null);

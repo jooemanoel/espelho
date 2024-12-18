@@ -17,6 +17,9 @@ export class FormParcelasComponent {
     data: new FormControl<Date>(new Date())
   });
   constructor(private _service: PagamentoService) { }
+  get pagamento() {
+    return this._service.pagamento;
+  }
   get valor() {
     return this.formParcela.controls.valor.value ?? 0;
   }

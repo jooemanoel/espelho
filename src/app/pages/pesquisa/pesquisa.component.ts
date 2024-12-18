@@ -17,7 +17,7 @@ export class PesquisaComponent {
     try {
       const x = this.clienteAtual();
       console.log('Efeito acionado com:', x);
-      if (x) this.processarCliente(x);
+      if (x) this.selecionarCliente(x);
     }
     catch (erro) {
       console.log('Erro capturado no efeito:', erro);
@@ -27,11 +27,13 @@ export class PesquisaComponent {
   clienteAlterado = toSignal(this._service.detectarClienteAlterado());
   clienteAlteradoEf = effect(() => {
     const x = this.clienteAlterado();
-    if (x) this.processarCliente(x);
+    if (x) this.selecionarCliente(x);
   });
   constructor(private _router: Router, private _service: ClienteService, private _controle: ControleService) { }
-  processarCliente(cliente: Cliente) {
+  selecionarCliente(cliente: Cliente) {
     this._controle.cliente = cliente;
+    this._controle.produtos = [];
+    this._controle.fornecedor = null;
     this.avancar();
   }
   mostrarErro(erro: unknown) {

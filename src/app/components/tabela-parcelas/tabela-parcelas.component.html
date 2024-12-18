@@ -15,6 +15,14 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
           <td mat-cell *matCellDef="let element"> {{element.data.toLocaleDateString('pt-BR')}} </td>
         </ng-container>
+        <ng-container [matColumnDef]="colunas[3]">
+          <th style="width: 40px" mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="removerParcela(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="colunas"></tr>
         <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
         <tr class="mat-row" *matNoDataRow>

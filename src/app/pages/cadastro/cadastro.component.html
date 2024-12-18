@@ -1,4 +1,5 @@
 <app-cabecalho titulo="Selecionar produto" rota="/pesqusia"></app-cabecalho>
 <app-info-cliente></app-info-cliente>
-<app-checkbox-tipos></app-checkbox-tipos>
-<app-tabela-fornecedores *ngIf="controle.produtos.length"></app-tabela-fornecedores>
+<app-checkbox-tipos [produtos]="produtos" (alternar)="alternarProduto($event)"></app-checkbox-tipos>
+<app-tabela-fornecedores [produtos]="produtos" [fornecedor]="fornecedor" (alternar)="alternarFornecedor($event)"
+  *ngIf="produtos.length"></app-tabela-fornecedores>

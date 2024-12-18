@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Cliente } from '../shared/models/interfaces/cliente';
 import { Fornecedor } from '../shared/models/interfaces/fornecedor';
 import { Produto } from '../shared/models/interfaces/produto';
@@ -17,12 +17,12 @@ export class ControleService {
   set cliente(x: Cliente) {
     this._cliente = x;
   }
-  private _produtos = signal<Produto[]>([]);
+  private _produtos: Produto[] = [];
   get produtos() {
-    return this._produtos();
+    return this._produtos;
   }
   set produtos(x: Produto[]) {
-    this._produtos.set(x);
+    this._produtos = x;
   }
   private _fornecedor: Fornecedor | null = null;
   get fornecedor() {

@@ -30,6 +30,9 @@ export class PagamentoService {
   get numParcelas() {
     return this._pagamento.numParcelas;
   }
+  get valorParcelas() {
+    return this._pagamento.parcelas.reduce((ac, x) => ac + x.valor, 0);
+  }
   inicializar() {
     this._pagamento = {
       valor: 0,

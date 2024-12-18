@@ -1,5 +1,4 @@
-import { Component, effect, OnInit } from '@angular/core';
-import { ControleService } from 'src/app/services/controle.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LISTA_PRODUTOS, Produto } from 'src/app/shared/models/interfaces/produto';
 
 @Component({
@@ -8,22 +7,16 @@ import { LISTA_PRODUTOS, Produto } from 'src/app/shared/models/interfaces/produt
   styleUrls: ['./checkbox-tipos.component.css']
 })
 export class CheckboxTiposComponent implements OnInit {
+  @Input() produtos: Produto[] = [];
+  @Output() alternar = new EventEmitter<{ checked: boolean, produto: Produto }>();
   listaProdutos: Produto[] = [];
-  produtosEfeito = effect(() => {
-    const produtos = this._controle.produtos;
-    if (!produtos.length || !produtos.every(p => this._controle.fornecedor?.produtos.some(x => x === p)))
-      this._controle.fornecedor = null;
-  });
-  constructor(private _controle: ControleService) { }
   ngOnInit(): void {
     this.listaProdutos = LISTA_PRODUTOS;
   }
   checarProduto(produto: Produto) {
-    return this._controle.produtos.some(x => x === produto);
+    return this.produtos.some(x => x.codigo === produto.codigo);
   }
   alternarProduto(checked: boolean, produto: Produto) {
-    this._controle.produtos = checked
-      ? [...this._controle.produtos, produto]
-      : this._controle.produtos.filter(x => x !== produto);
+    this.alternar.emit({ checked, produto });
   }
 }
