@@ -6,13 +6,13 @@
         <div class="col col-12 col-md-6 col-lg">
           <mat-form-field class="w-100">
             <mat-label>Valor</mat-label>
-            <input matInput type="number" [formControl]="formPagamento.controls.valor">
+            <input matInput type="text" appMascaraMonetaria [formControl]="formPagamento.controls.valor">
           </mat-form-field>
         </div>
         <div class="col col-12 col-md-6 col-lg">
           <mat-form-field class="w-100">
             <mat-label>Percentual</mat-label>
-            <input matInput type="number" [formControl]="formPagamento.controls.percentual">
+            <input matInput type="text" appPercentual [formControl]="formPagamento.controls.percentual">
           </mat-form-field>
         </div>
         <div class="col col-12 col-md-6 col-lg mb-3">

@@ -31,6 +31,10 @@ import { FormParcelasComponent } from './components/form-parcelas/form-parcelas.
 import { ResumoPagamentoComponent } from './components/resumo-pagamento/resumo-pagamento.component';
 import { PesquisaComponent } from './pages/pesquisa/pesquisa.component';
 import { InfoClienteComponent } from './components/info-cliente/info-cliente.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogoComponent } from './components/dialogo/dialogo.component';
+import { MascaraMonetariaDirective } from './diretivas/mascara-monetaria.directive';
+import { PercentualDirective } from './diretivas/percentual.directive';
 
 @NgModule({
   declarations: [
@@ -46,7 +50,10 @@ import { InfoClienteComponent } from './components/info-cliente/info-cliente.com
     FormParcelasComponent,
     ResumoPagamentoComponent,
     PesquisaComponent,
-    InfoClienteComponent
+    InfoClienteComponent,
+    DialogoComponent,
+    MascaraMonetariaDirective,
+    PercentualDirective
   ],
   imports: [
     AppRoutingModule,
@@ -68,7 +75,8 @@ import { InfoClienteComponent } from './components/info-cliente/info-cliente.com
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

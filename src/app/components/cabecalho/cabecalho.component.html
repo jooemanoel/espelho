@@ -3,7 +3,7 @@
     <mat-icon>{{rota ? 'arrow_back' : 'menu'}}</mat-icon>
   </button>
   <div class="flex-fill">{{ titulo }}</div>
-  <button mat-icon-button>
+  <button mat-icon-button (click)="openDialog()">
     <mat-icon>close</mat-icon>
   </button>
 </mat-toolbar>

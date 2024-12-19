@@ -12,11 +12,11 @@ import { PagamentoService } from 'src/app/services/pagamento.service';
 export class FormPagamentoComponent implements OnInit {
   @Input() ativo!: boolean;
   formPagamento = new FormGroup({
-    valor: new FormControl<number | undefined>(
+    valor: new FormControl<string | undefined>(
       undefined,
       [Validators.required.bind(this), Validators.min(0.01)]
     ),
-    percentual: new FormControl<number | undefined>(
+    percentual: new FormControl<string | undefined>(
       undefined,
       [Validators.required.bind(this), Validators.min(0.01), Validators.max(100)]
     ),
@@ -36,8 +36,8 @@ export class FormPagamentoComponent implements OnInit {
     this.ativo ? this.formPagamento.enable() : this.formPagamento.disable();
     if (!this._service.valor) return;
     this.formPagamento.patchValue({
-      valor: this._service.valor,
-      percentual: this._service.percentual,
+      valor: this._service.valor.toString(),
+      percentual: this._service.percentual.toString(),
       parcelado: this._service.parcelado,
       numParcelas: this._service.numParcelas
     });
@@ -48,13 +48,13 @@ export class FormPagamentoComponent implements OnInit {
     }
   }
   get valor() {
-    return this.formPagamento.controls.valor.value ?? 0;
+    return this.formPagamento.controls.valor.value ?? '0';
   }
   get percentual() {
-    return this.formPagamento.controls.percentual.value ?? 0;
+    return this.formPagamento.controls.percentual.value ?? '0';
   }
   get comissao() {
-    return (this.valor * this.percentual) / 100;
+    return (parseFloat(this.valor) * parseFloat(this.percentual)) / 100;
   }
   get parcelado() {
     return this.formPagamento.controls.parcelado.value ?? false;
@@ -82,12 +82,12 @@ export class FormPagamentoComponent implements OnInit {
   }
   avancar() {
     if (this.checarErros()) return;
-    this._service.pagamento.valor = this.valor;
-    this._service.pagamento.percentual = this.percentual;
+    this._service.pagamento.valor = parseFloat(this.valor);
+    this._service.pagamento.percentual = parseFloat(this.percentual);
     this._service.pagamento.parcelado = this.parcelado;
     this._service.pagamento.numParcelas = this.numParcelas;
     this._service.pagamento.parcelas = this.parcelado ? [] : [{
-      valor: this.valor,
+      valor: parseFloat(this.valor),
       comissao: this.comissao,
       data: this.data
     }];

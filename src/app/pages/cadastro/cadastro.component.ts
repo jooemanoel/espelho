@@ -18,7 +18,6 @@ export class CadastroComponent {
       : this.produtos.filter(p => p.codigo !== x.produto.codigo);
     if (!this.produtos.length || !this.produtos.every(p => this.fornecedor?.produtos.some(x => x === p)))
       this.fornecedor = null;
-    console.log(this.produtos);
   }
   alternarFornecedor(value: Fornecedor) {
     this.fornecedor = value;
